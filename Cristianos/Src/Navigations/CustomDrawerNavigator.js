@@ -45,8 +45,8 @@ const CustomDrawerNavigator = () => {
         widthcontainer={responsiveWidth(24)}
         marginTopcontainer={'12%'}
         text={'Profile'}
-        widthimage={'26%'}
-        heightimage={'92.5%'}
+        widthimage={'29.3%'}
+        heightimage={'100%'}
         imagesource={require('../Assets/Icons/profile.png')}
       />
 

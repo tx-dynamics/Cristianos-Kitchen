@@ -26,6 +26,7 @@ const CustomText = ({
         marginTop: marginTopcontainer,
       }}>
       <Image
+        resizeMode={'contain'}
         style={{...styles.imagestyle, width: widthimage, height: heightimage}}
         source={imagesource}
       />
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     marginLeft: '6%',
     alignItems: 'center',
     justifyContent: 'space-between',
+    //backgroundColor: 'red',
   },
   textstyle: {
     fontSize: responsiveFontSize(2),

@@ -33,6 +33,7 @@ const Home = () => {
           fontFamily2={'Antique-Bold-Font'}
           marginTop={'12%'}
           marginToptext={'5%'}
+          marginTopImage={'-3%'}
           // letterSpacingtext2={0.02}
           fontSize2={responsiveFontSize(3.1)}
           fontSize={responsiveFontSize(3.2)}
