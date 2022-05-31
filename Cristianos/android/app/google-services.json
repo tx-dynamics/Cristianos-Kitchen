@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "825298414752",
+    "project_id": "cristianos-kitchen",
+    "storage_bucket": "cristianos-kitchen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825298414752:android:d51aeb7881e23091352dc5",
+        "android_client_info": {
+          "package_name": "com.cristianos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825298414752-nr8s0s8hu4dtu2867mr6h6n5omrv85cc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBUcbMlZ3rBdJJOGJdzffokXzkAdf3zIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825298414752-nr8s0s8hu4dtu2867mr6h6n5omrv85cc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
