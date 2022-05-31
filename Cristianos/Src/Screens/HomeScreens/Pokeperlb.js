@@ -5,6 +5,7 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {
   responsiveHeight,
@@ -15,10 +16,32 @@ import React from 'react';
 import HomeHeader from '../../Components/Headers/HomeHeader';
 import HomeImages from '../../Components/Images/HomeImages';
 import ProfileBtn from '../../Components/Buttons/ProfileBtn';
-import {useNavigation} from '@react-navigation/native';
 
-const Pokeperlb = () => {
-  const navigation = useNavigation();
+const Pokeperlb = ({navigation}) => {
+  function onPressFunction(screen) {
+    navigation.navigate(screen);
+  }
+
+  const ImagesData = [
+    {
+      image: require('../../Assets/Images/poke.png'),
+      sceenname: 'OrderPage',
+      text: 'WELA POKE (0.5LB)',
+      questionimage: require('../../Assets/Images/red.png'),
+      doller: '$ 8.50',
+      btntext: 'MODIFY',
+      btntext2: 'ORDER',
+    },
+    {
+      image: require('../../Assets/Images/poke.png'),
+      sceenname: 'OrderPage',
+      text: 'WELA POKE (0.5LB)',
+      questionimage: require('../../Assets/Images/green.png'),
+      doller: '$ 8.50',
+      btntext: 'MODIFY',
+      btntext2: 'ORDER',
+    },
+  ];
 
   return (
     <View style={styles.maincontainer}>
@@ -32,93 +55,68 @@ const Pokeperlb = () => {
           onPress={() => navigation.navigate('Truck')}
           imagesource={require('../../Assets/Icons/witheback.png')}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textstyle}>POKE PER LB</Text>
-          <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
-            marginTop={'3%'}
-            fontWeight={'bold'}
-            width={responsiveWidth(60)}
-            height={responsiveHeight(26)}
-            backgroundColor={'#FF95A6'}
-            imagesource={require('../../Assets/Images/poke.png')}
-          />
-          <View style={styles.bottomcontainer}>
-            <Text style={styles.fishstyle}>WELA POKE (0.5LB)</Text>
-            <Image
-              style={styles.iconstyle}
-              source={require('../../Assets/Images/red.png')}
-            />
-            <Text style={styles.dollerstyle}>$ 8.50</Text>
-          </View>
-          <View style={styles.Btncontainer}>
-            <ProfileBtn
-              text={'MODIFY'}
-              marginTop={'3%'}
-              width={responsiveWidth(37.5)}
-              height={responsiveHeight(5)}
-              borderRadius={20}
-              borderColor={'#FF95A6'}
-              borderWidth={1}
-              textcolor={'#FF95A6'}
-            />
-            <ProfileBtn
-              onPress={() => navigation.navigate('OrderPage')}
-              text={'ORDER'}
-              marginLeft={'5%'}
-              marginTop={'3%'}
-              width={responsiveWidth(37.5)}
-              height={responsiveHeight(5)}
-              backgroundColor={'#FF95A6'}
-              borderColor={'#FF95A6'}
-              borderWidth={1}
-              borderRadius={20}
-              textcolor={'white'}
-            />
-          </View>
-          <HomeImages
-            marginTop={'5%'}
-            fontWeight={'bold'}
-            marginTopImage={'-12%'}
-            width={responsiveWidth(62)}
-            height={responsiveHeight(40)}
-            backgroundColor={'#25B7B7'}
-            imagesource={require('../../Assets/Images/poke.png')}
-          />
-          <View style={styles.bottomcontainer}>
-            <Text style={styles.fish1style}>WELA POKE (0.5LB)</Text>
-            <Image
-              style={styles.icon1style}
-              source={require('../../Assets/Images/green.png')}
-            />
-            <Text style={styles.doller1style}>$ 8.50</Text>
-          </View>
-          <View style={styles.Btncontainer}>
-            <ProfileBtn
-              text={'MODIFY'}
-              marginTop={'3%'}
-              width={responsiveWidth(37.5)}
-              height={responsiveHeight(5)}
-              borderRadius={20}
-              borderColor={'#25B7B7'}
-              borderWidth={1}
-              textcolor={'#25B7B7'}
-            />
-            <ProfileBtn
-              onPress={() => navigation.navigate('OrderPage')}
-              text={'ORDER'}
-              marginLeft={'5%'}
-              marginTop={'3%'}
-              width={responsiveWidth(37.5)}
-              height={responsiveHeight(5)}
-              backgroundColor={'#25B7B7'}
-              borderColor={'#25B7B7'}
-              borderWidth={1}
-              borderRadius={20}
-              textcolor={'white'}
-            />
-          </View>
-        </ScrollView>
+        <Text style={styles.textstyle}>POKE PER LB</Text>
+
+        <FlatList
+          data={ImagesData}
+          keyExtractor={(ImagesData, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <View key={index}>
+              <View>
+                <HomeImages
+                  marginTop={index == 0 ? '0%' : '5%'}
+                  fontWeight={'bold'}
+                  marginTopImage={'3%'}
+                  width={responsiveWidth(55)}
+                  height={responsiveHeight(25)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  imagesource={item.image}
+                />
+              </View>
+              <View style={styles.bottomcontainer}>
+                <Text style={styles.fishstyle}>{item.text}</Text>
+                <Image
+                  resizeMode={'contain'}
+                  style={styles.iconstyle}
+                  source={item.questionimage}
+                />
+                <Text
+                  style={{
+                    ...styles.dollerstyle,
+                    color: index % 2 == 0 ? '#FF95A6' : '#25B7B7',
+                  }}>
+                  {item.doller}
+                </Text>
+              </View>
+              <View style={styles.Btncontainer}>
+                <ProfileBtn
+                  text={'MODIFY'}
+                  marginTop={'3%'}
+                  width={responsiveWidth(37.5)}
+                  height={responsiveHeight(5)}
+                  borderRadius={20}
+                  borderColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderWidth={1}
+                  textcolor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                />
+                <ProfileBtn
+                  onPress={() => onPressFunction(item.sceenname)}
+                  text={'ORDER'}
+                  marginLeft={'5%'}
+                  marginTop={'3%'}
+                  width={responsiveWidth(37.5)}
+                  height={responsiveHeight(5)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderWidth={1}
+                  borderRadius={20}
+                  textcolor={'white'}
+                />
+              </View>
+            </View>
+          )}
+        />
       </ImageBackground>
     </View>
   );
@@ -141,6 +139,7 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
     marginTop: '3%',
+    marginBottom: '3%',
   },
   bottomcontainer: {
     flexDirection: 'row',
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     width: '4.2%',
     height: '50%',
     marginTop: '4%',
-    marginLeft: '-33%',
+    // marginLeft: '-33%',
   },
   dollerstyle: {
     fontSize: responsiveFontSize(1.8),
@@ -170,23 +169,5 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  fish1style: {
-    fontSize: responsiveFontSize(1.8),
-    fontFamily: 'Antique-Bold-Font',
-    color: 'black',
-    marginTop: '3%',
-  },
-  icon1style: {
-    width: '4.1%',
-    height: '50%',
-    marginTop: '4%',
-    marginLeft: '-33%',
-  },
-  doller1style: {
-    fontSize: responsiveFontSize(1.8),
-    fontFamily: 'Antique-Bold-Font',
-    color: '#25B7B7',
-    marginTop: '3%',
   },
 });

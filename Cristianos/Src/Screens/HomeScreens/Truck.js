@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {
@@ -14,10 +15,36 @@ import {
 } from 'react-native-responsive-dimensions';
 import HomeImages from '../../Components/Images/HomeImages';
 import HomeHeader from '../../Components/Headers/HomeHeader';
-import ProfileBtn from '../../Components/Buttons/ProfileBtn';
-import {useNavigation} from '@react-navigation/native';
-const Truck = () => {
-  const navigation = useNavigation();
+
+const Truck = ({navigation}) => {
+  function onPressFunction(screen) {
+    navigation.navigate(screen);
+  }
+
+  const ImagesData = [
+    {
+      headingname: 'POKE BOWLS',
+      sceenname: 'Pokebowls',
+      text: 'POKE',
+      text2: 'BOWLS',
+      image: require('../../Assets/Images/pokebowls.png'),
+    },
+    {
+      headingname: 'DYNAMITE BOMBS',
+      sceenname: 'Dynamtiebombs',
+      text: 'DYNAMITE',
+      text2: 'BOMBS',
+      image: require('../../Assets/Images/dynamitebombs1.png'),
+    },
+    {
+      headingname: 'POKE PER LB.',
+      sceenname: 'Pokeperlb',
+      text: 'POKE',
+      text2: 'PER LB',
+      image: require('../../Assets/Images/pokeperlb.png'),
+    },
+  ];
+
   return (
     <View style={styles.maincontainer}>
       <ImageBackground
@@ -30,7 +57,57 @@ const Truck = () => {
           onPress={() => navigation.navigate('Home')}
           imagesource={require('../../Assets/Icons/witheback.png')}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
+
+        <FlatList
+          data={ImagesData}
+          keyExtractor={(ImagesData, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <View>
+              <Text style={styles.textstyle}>{item.headingname}</Text>
+              <View key={index}>
+                <HomeImages
+                  onPress={() => onPressFunction(item.sceenname)}
+                  text={item.text}
+                  text2={item.text2}
+                  color={'white'}
+                  marginTop={'3%'}
+                  marginBottomtext={'-3%'}
+                  color2={'white'}
+                  fontFamily2={'Antique-Bold-Font'}
+                  fontSize2={
+                    index == 0
+                      ? responsiveFontSize(2.5)
+                      : index == 1
+                      ? responsiveFontSize(4)
+                      : responsiveFontSize(1.7)
+                  }
+                  fontSize={
+                    index == 0
+                      ? responsiveFontSize(6.2)
+                      : index == 1
+                      ? responsiveFontSize(4)
+                      : responsiveFontSize(5.3)
+                  }
+                  fontFamily={'Antique-Bold-Font'}
+                  marginTopImage={index == 0 ? '0%' : index == 1 ? '-5%' : '0%'}
+                  width={responsiveWidth(60)}
+                  height={
+                    index == 0
+                      ? responsiveHeight(20)
+                      : index == 1
+                      ? responsiveHeight(25)
+                      : responsiveHeight(25)
+                  }
+                  backgroundColor={index % 2 == 0 ? '#25B7B7' : '#FF95A6'}
+                  imagesource={item.image}
+                />
+              </View>
+            </View>
+          )}
+        />
+
+        {/* <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.textstyle}>POKE BOWLS</Text>
           <HomeImages
             onPress={() => navigation.navigate('Pokebowls')}
@@ -93,7 +170,7 @@ const Truck = () => {
             backgroundColor={'#25B7B7'}
             imagesource={require('../../Assets/Images/pokeperlb.png')}
           />
-        </ScrollView>
+        </ScrollView> */}
       </ImageBackground>
     </View>
   );

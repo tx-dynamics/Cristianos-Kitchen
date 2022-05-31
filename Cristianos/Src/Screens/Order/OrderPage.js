@@ -6,6 +6,7 @@ import {
   ScrollView,
   View,
   Pressable,
+  FlatList,
 } from 'react-native';
 import {
   responsiveHeight,
@@ -14,15 +15,41 @@ import {
 } from 'react-native-responsive-dimensions';
 import React from 'react';
 import HomeHeader from '../../Components/Headers/HomeHeader';
-import HomeImages from '../../Components/Images/HomeImages';
-import ProfileBtn from '../../Components/Buttons/ProfileBtn';
-import {useNavigation} from '@react-navigation/native';
 import HomeImage2 from '../../Components/Images/HomeImage2';
 import AddOrdersBtn from '../../Components/Buttons/AddOrdersBtn';
 import SummeryDetails from '../../Components/Summery/SummeryDetails';
 
-const OrderPage = () => {
-  const navigation = useNavigation();
+const OrderPage = ({navigation}) => {
+  function onPressFunction(screen) {
+    navigation.navigate(screen);
+  }
+
+  const ImagesData = [
+    {
+      imagetext: 'RED CABBAGE SLAW',
+      imagetext1: '(Side)',
+      image: require('../../Assets/Images/salid.png'),
+    },
+    {
+      imagetext: 'Lettuce',
+      image: require('../../Assets/Images/salid1.png'),
+    },
+    {
+      image: require('../../Assets/Images/bever.png'),
+    },
+    {
+      image: require('../../Assets/Images/bever1.png'),
+    },
+    {
+      imagetext: 'CRISTIANOS FAMOUS',
+      imagetext1: 'CHEESE SAUCE',
+      image: require('../../Assets/Images/side1.png'),
+    },
+    {
+      imagetext: 'HOT SAUCE',
+      image: require('../../Assets/Images/side.png'),
+    },
+  ];
 
   return (
     <View style={styles.maincontainer}>
@@ -36,138 +63,90 @@ const OrderPage = () => {
           imagesource={require('../../Assets/Icons/witheback.png')}
         />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
-            // marginTop={'3%'}
-            fontWeight={'bold'}
-            marginTopImage={'-12%'}
-            width={responsiveWidth(65)}
-            height={responsiveHeight(30)}
-            backgroundColor={'#FF95A6'} */}
-          <Pressable
-            style={{
-              height: responsiveHeight(29),
-              width: responsiveWidth(100),
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FF95A6',
-              marginBottom: '1%',
-              marginTop: '0.5%',
-            }}>
-            <Image
-              style={{
-                height: responsiveHeight(26),
-                width: responsiveWidth(70),
-              }}
-              source={require('../../Assets/Images/Combos1.png')}
-            />
-          </Pressable>
-          <View style={styles.bottomcontainer}>
-            <Text style={styles.fish1style}>WELA POKE</Text>
-            <Text style={styles.doller1style}>$ 8.50</Text>
-            <Text>A crispy chcken petty tendrized burger stuffed</Text>
-            <Text> in bread crums, fries, and a drink.</Text>
-            <Text style={styles.fish1style}>Choose Your Sides</Text>
-          </View>
+        <FlatList
+          data={ImagesData}
+          keyExtractor={(ImagesData, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          ListHeaderComponent={
+            <View>
+              <Pressable
+                style={{
+                  height: responsiveHeight(29),
+                  width: responsiveWidth(100),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FF95A6',
+                  marginBottom: '1%',
+                  marginTop: '0.5%',
+                }}>
+                <Image
+                  style={{
+                    height: responsiveHeight(26),
+                    width: responsiveWidth(70),
+                  }}
+                  source={require('../../Assets/Images/Combos1.png')}
+                />
+              </Pressable>
+              <View style={styles.bottomcontainer}>
+                <Text style={styles.fish1style}>WELA POKE</Text>
+                <Text style={styles.doller1style}>$ 8.50</Text>
+                <Text>A crispy chcken petty tendrized burger stuffed</Text>
+                <Text> in bread crums, fries, and a drink.</Text>
+                <Text style={styles.fish1style}>Choose Your Sides</Text>
+              </View>
+            </View>
+          }
+          renderItem={({item, index}) => (
+            <View style={styles.imagecontainer} key={index}>
+              <HomeImage2
+                text={item.imagetext}
+                text2={item.imagetext1}
+                fontSize={
+                  index == 0
+                    ? responsiveFontSize(1)
+                    : index == 1
+                    ? responsiveFontSize(1.7)
+                    : index == 4
+                    ? responsiveFontSize(1)
+                    : responsiveFontSize(1.5)
+                }
+                fontSize2={responsiveFontSize(1)}
+                fontWeight={index == 0 ? '400' : '700'}
+                fontWeight2={'400'}
+                marginTop={'3%'}
+                width={responsiveWidth(35)}
+                height={responsiveHeight(15)}
+                backgroundColor={index % 2 == 1 ? '#FF95A6' : '#25B7B7'}
+                imagesource={item.image}
+              />
+            </View>
+          )}
+          ListFooterComponent={
+            <View>
+              <View style={{...styles.linestyle, marginTop: '5%'}} />
 
-          <View style={styles.imagecontainer}>
-            <HomeImage2
-              text={'RED CABBAGE SLAW'}
-              text2={'(Side)'}
-              fontSize={responsiveFontSize(1)}
-              fontSize2={responsiveFontSize(1)}
-              fontWeight={'400'}
-              fontWeight2={'400'}
-              marginTop={'3%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#25B7B7'}
-              imagesource={require('../../Assets/Images/salid.png')}
-            />
-            <HomeImage2
-              text={'Lettuce'}
-              fontSize={responsiveFontSize(1.7)}
-              fontWeight={'700'}
-              marginToptext={'-16%'}
-              marginLefttext={'-16%'}
-              marginTop={'3%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#FF95A6'}
-              imagesource={require('../../Assets/Images/salid1.png')}
-            />
-          </View>
+              <Text style={styles.summarystyle}>SUMMARY</Text>
 
-          <View style={styles.imagecontainer}>
-            <HomeImage2
-              marginTop={'3%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#25B7B7'}
-              imagesource={require('../../Assets/Images/bever.png')}
-            />
-            <HomeImage2
-              marginTop={'3%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#FF95A6'}
-              imagesource={require('../../Assets/Images/bever1.png')}
-            />
-          </View>
+              <View style={styles.linestyle} />
 
-          <View style={styles.imagecontainer}>
-            <HomeImage2
-              text={'CRISTIANOS FAMOUS'}
-              text2={'CHEESE SAUCE'}
-              fontSize={responsiveFontSize(1)}
-              fontSize2={responsiveFontSize(1)}
-              fontWeight={'400'}
-              fontWeight2={'400'}
-              marginTop={'3%'}
-              marginBottom={'5%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#25B7B7'}
-              imagesource={require('../../Assets/Images/side1.png')}
-            />
+              <SummeryDetails
+                clasictext={'CLASIC BURGER'}
+                selectedtext={'1/1 Selected'}
+                ranchtext={'Ranch Source'}
+                cocacolatext={'CocaCola'}
+                totaltext={'TOTAL'}
+                dolertext={'$ 8.50'}
+                dolertext1={'$ 8.50'}
+                dolertext2={'$ +.075'}
+                dolertext3={'$ 3.25'}
+                dolertext5={'$ 12.50'}
+              />
 
-            <HomeImage2
-              text={'HOT SAUCE'}
-              fontSize={responsiveFontSize(1.5)}
-              fontWeight={'500'}
-              marginToptext={'-16%'}
-              marginLefttext={'-12%'}
-              marginTop={'3%'}
-              marginBottom={'5%'}
-              width={responsiveWidth(35)}
-              height={responsiveHeight(17)}
-              backgroundColor={'#FF95A6'}
-              imagesource={require('../../Assets/Images/side.png')}
-            />
-          </View>
-
-          <View style={styles.linestyle} />
-
-          <Text style={styles.summarystyle}>SUMMARY</Text>
-
-          <View style={styles.linestyle} />
-
-          <SummeryDetails
-            clasictext={'CLASIC BURGER'}
-            selectedtext={'1/1 Selected'}
-            ranchtext={'Ranch Source'}
-            cocacolatext={'CocaCola'}
-            totaltext={'TOTAL'}
-            dolertext={'$ 8.50'}
-            dolertext1={'$ 8.50'}
-            dolertext2={'$ +.075'}
-            dolertext3={'$ 3.25'}
-            dolertext5={'$ 12.50'}
-          />
-
-          <View style={styles.line2style} />
-        </ScrollView>
+              <View style={styles.line2style} />
+            </View>
+          }
+        />
         <View style={{position: 'absolute', zIndex: 1, bottom: '0%'}}>
           <AddOrdersBtn />
         </View>
@@ -215,6 +194,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: '2%',
+    marginLeft: '2%',
+    // marginBottom: '5%',
   },
   linestyle: {
     opacity: 0.1,

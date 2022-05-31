@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {
@@ -15,9 +16,35 @@ import {
 import ProfileBtn from '../../Components/Buttons/ProfileBtn';
 import HomeImages from '../../Components/Images/HomeImages';
 import HomeHeader from '../../Components/Headers/HomeHeader';
-import {useNavigation} from '@react-navigation/native';
-const Sides = () => {
-  const navigation = useNavigation();
+
+const Sides = ({navigation}) => {
+  function onPressFunction(screen) {
+    navigation.navigate(screen);
+  }
+
+  const ImagesData = [
+    {
+      image: require('../../Assets/Images/side1.png'),
+      sceenname: 'OrderPage',
+      imagetext: 'CRISTIANOS FAMOUS',
+      imagetext2: 'CHEESE SAUCE',
+      text: 'CRISTIANOS FAMOUS',
+      text2: 'CHEESE SAUSE',
+      questionimage: require('../../Assets/Images/red.png'),
+      doller: '$ 8.50',
+      btntext: 'ORDER',
+    },
+    {
+      image: require('../../Assets/Images/side2.png'),
+      sceenname: 'OrderPage',
+      imagetext: 'HOT SAUCE',
+      text: 'FAMOUS SIDES',
+      questionimage: require('../../Assets/Images/green.png'),
+      doller: '$ 8.50',
+      btntext: 'ORDER',
+    },
+  ];
+
   return (
     <View style={styles.maincontainer}>
       <ImageBackground
@@ -30,10 +57,62 @@ const Sides = () => {
           onPress={() => navigation.navigate('Kitchen')}
           imagesource={require('../../Assets/Icons/witheback.png')}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textstyle}>SIDES</Text>
-          <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
+
+        <Text style={styles.textstyle}>SIDES</Text>
+
+        <FlatList
+          data={ImagesData}
+          keyExtractor={(ImagesData, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <View key={index}>
+              <View>
+                <HomeImages
+                  marginTop={index == 0 ? '0%' : '5%'}
+                  marginTopImage={'-4%'}
+                  fontWeight={'bold'}
+                  width={responsiveWidth(60)}
+                  height={responsiveHeight(25)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  imagesource={item.image}
+                  marginLefttext3={index % 2 == 0 ? '3%' : '5%'}
+                  text3={item.imagetext}
+                  text4={item.imagetext2}
+                />
+              </View>
+              <View style={styles.bottomcontainer}>
+                <Text style={styles.fishstyle}>{item.text}</Text>
+                <Image
+                  resizeMode={'contain'}
+                  style={styles.iconstyle}
+                  source={item.questionimage}
+                />
+                <Text
+                  style={{
+                    ...styles.dollerstyle,
+                    color: index % 2 == 0 ? '#FF95A6' : '#25B7B7',
+                  }}>
+                  {item.doller}
+                </Text>
+              </View>
+              <View style={styles.Btncontainer}>
+                <ProfileBtn
+                  text={'ORDER'}
+                  marginLeft={'5%'}
+                  marginTop={'3%'}
+                  width={responsiveWidth(90)}
+                  height={responsiveHeight(5)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderWidth={1}
+                  borderRadius={20}
+                  textcolor={'white'}
+                />
+              </View>
+            </View>
+          )}
+        />
+        {/* <HomeImages
             marginTop={'3%'}
             fontFamily={'Antique-Bold-Font'}
             marginTopImage={'-5%'}
@@ -69,7 +148,6 @@ const Sides = () => {
             />
           </View>
           <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
             marginTop={'3%'}
             fontWeight={'bold'}
             marginTopImage={'-3%'}
@@ -102,7 +180,7 @@ const Sides = () => {
               textcolor={'white'}
             />
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </ImageBackground>
     </View>
   );
@@ -125,6 +203,7 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
     marginTop: '3%',
+    marginBottom: '3%',
   },
   bottomcontainer: {
     flexDirection: 'row',
@@ -144,33 +223,15 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   iconstyle: {
-    width: '4.25%',
+    width: '4%',
     height: '50%',
     marginTop: '4%',
-    marginLeft: '-24%',
+    // marginLeft: '-24%',
   },
   dollerstyle: {
     fontSize: responsiveFontSize(1.8),
     fontFamily: 'Antique-Bold-Font',
     color: '#FF95A6',
-    marginTop: '3%',
-  },
-  fish1style: {
-    fontSize: responsiveFontSize(1.8),
-    fontFamily: 'Antique-Bold-Font',
-    color: 'black',
-    marginLeft: '5%',
-  },
-  icon1style: {
-    width: '4.23%',
-    height: '50%',
-    marginTop: '4%',
-    marginLeft: '42%',
-  },
-  doller2style: {
-    fontSize: responsiveFontSize(1.8),
-    fontFamily: 'Antique-Bold-Font',
-    color: '#25B7B7',
     marginTop: '3%',
   },
 });

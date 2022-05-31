@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {
@@ -15,9 +16,32 @@ import {
 import ProfileBtn from '../../Components/Buttons/ProfileBtn';
 import HomeImages from '../../Components/Images/HomeImages';
 import HomeHeader from '../../Components/Headers/HomeHeader';
-import {useNavigation} from '@react-navigation/native';
-const Tacos = () => {
-  const navigation = useNavigation();
+
+const Tacos = ({navigation}) => {
+  function onPressFunction(screen) {
+    navigation.navigate(screen);
+  }
+
+  const ImagesData = [
+    {
+      image: require('../../Assets/Images/Tacos.png'),
+      sceenname: 'OrderPage',
+      text: 'ASAHI BEER BATTERED',
+      text2: 'FISH TACOS',
+      questionimage: require('../../Assets/Images/red.png'),
+      doller: '$ 8.50',
+      btntext: 'ORDER',
+    },
+    {
+      image: require('../../Assets/Images/signup.png'),
+      sceenname: 'OrderPage',
+      text: 'PARK TACOS',
+      questionimage: require('../../Assets/Images/green.png'),
+      doller: '$ 8.50',
+      btntext: 'ORDER',
+    },
+  ];
+
   return (
     <View style={styles.maincontainer}>
       <ImageBackground
@@ -30,73 +54,63 @@ const Tacos = () => {
           onPress={() => navigation.navigate('Kitchen')}
           imagesource={require('../../Assets/Icons/witheback.png')}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textstyle}>TACOS</Text>
-          <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
-            marginTop={'3%'}
-            fontWeight={'bold'}
-            width={responsiveWidth(70)}
-            height={responsiveHeight(25)}
-            backgroundColor={'#FF95A6'}
-            imagesource={require('../../Assets/Images/Tacos.png')}
-          />
-          <View style={styles.bottomcontainer}>
-            <Text style={styles.fishstyle}>ASAHI BEER BATTERED</Text>
-            <Image
-              style={styles.iconstyle}
-              source={require('../../Assets/Images/red.png')}
-            />
-            <Text style={styles.dollerstyle}>$ 8.50</Text>
-          </View>
-          <Text style={styles.fish1style}>FISH TACOS</Text>
-          <View style={styles.Btncontainer}>
-            <ProfileBtn
-              text={'ORDER'}
-              marginLeft={'5%'}
-              marginTop={'3%'}
-              width={responsiveWidth(90)}
-              height={responsiveHeight(5)}
-              backgroundColor={'#FF95A6'}
-              borderColor={'#FF95A6'}
-              borderWidth={1}
-              borderRadius={20}
-              textcolor={'white'}
-            />
-          </View>
-          <HomeImages
-            // onPress={() => navigation.navigate('Combos')}
-            marginTop={'3%'}
-            fontWeight={'bold'}
-            marginTopImage={'-15%'}
-            width={responsiveWidth(80)}
-            height={responsiveHeight(40)}
-            backgroundColor={'#25B7B7'}
-            imagesource={require('../../Assets/Images/signup.png')}
-          />
-          <View style={styles.bottomcontainer}>
-            <Text style={styles.fishstyle}>PARK TACOS</Text>
-            <Image
-              style={styles.icon1style}
-              source={require('../../Assets/Images/green.png')}
-            />
-            <Text style={styles.doller2style}>$ 8.50</Text>
-          </View>
-          <View style={styles.Btncontainer}>
-            <ProfileBtn
-              text={'ORDER'}
-              marginLeft={'5%'}
-              marginTop={'3%'}
-              width={responsiveWidth(90)}
-              height={responsiveHeight(5)}
-              backgroundColor={'#25B7B7'}
-              borderColor={'#25B7B7'}
-              borderWidth={1}
-              borderRadius={20}
-              textcolor={'white'}
-            />
-          </View>
-        </ScrollView>
+
+        <Text style={styles.textstyle}>TACOS</Text>
+
+        <FlatList
+          data={ImagesData}
+          keyExtractor={(ImagesData, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <View key={index}>
+              <View>
+                <HomeImages
+                  marginTop={index == 0 ? '0%' : '5%'}
+                  fontWeight={'bold'}
+                  marginTopImage={'3%'}
+                  width={responsiveWidth(60)}
+                  height={responsiveHeight(25)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  imagesource={item.image}
+                />
+              </View>
+              <View style={styles.bottomcontainer}>
+                <Text style={styles.fishstyle}>{item.text}</Text>
+                <Image
+                  resizeMode={'contain'}
+                  style={styles.iconstyle}
+                  source={item.questionimage}
+                />
+                <Text
+                  style={{
+                    ...styles.dollerstyle,
+                    color: index % 2 == 0 ? '#FF95A6' : '#25B7B7',
+                  }}>
+                  {item.doller}
+                </Text>
+              </View>
+              {index == 0 ? (
+                <View style={styles.bottomcontainer}>
+                  <Text style={styles.fish1style}>{item.text2}</Text>
+                </View>
+              ) : null}
+              <View style={styles.Btncontainer}>
+                <ProfileBtn
+                  text={'ORDER'}
+                  marginLeft={'5%'}
+                  marginTop={'3%'}
+                  width={responsiveWidth(90)}
+                  height={responsiveHeight(5)}
+                  backgroundColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderColor={index % 2 == 0 ? '#FF95A6' : '#25B7B7'}
+                  borderWidth={1}
+                  borderRadius={20}
+                  textcolor={'white'}
+                />
+              </View>
+            </View>
+          )}
+        />
       </ImageBackground>
     </View>
   );
@@ -119,6 +133,7 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
     marginTop: '3%',
+    marginBottom: '3%',
   },
   bottomcontainer: {
     flexDirection: 'row',
@@ -132,10 +147,10 @@ const styles = StyleSheet.create({
     marginTop: '3%',
   },
   iconstyle: {
-    width: '4.2%',
+    width: '4%',
     height: '50%',
     marginTop: '4%',
-    marginLeft: '-21%',
+    // marginLeft: '-21%',
   },
   dollerstyle: {
     fontSize: responsiveFontSize(1.8),
@@ -147,18 +162,6 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.8),
     fontFamily: 'Antique-Bold-Font',
     color: 'black',
-    marginLeft: '5%',
-  },
-  icon1style: {
-    width: '4.2%',
-    height: '50%',
-    marginTop: '4%',
-    marginLeft: '39%',
-  },
-  doller2style: {
-    fontSize: responsiveFontSize(1.8),
-    fontFamily: 'Antique-Bold-Font',
-    color: '#25B7B7',
-    marginTop: '3%',
+    // marginTop: '3%',
   },
 });
